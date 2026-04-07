@@ -1,49 +1,64 @@
-window.addEventListener('load', () => {
-    //we need to get the element(canvas) so we creat a variable to get the canvas
-    const canvas = document.querySelector("#canvas");
-    //we also need to work inside the canvas and what ctx(2d or 3d)
-    const ctx = canvas.getContext("2d");
+//we need to get the element(canvas) so we creat a variable to get the canvas
+const canvas = document.getElementById('drawing-board');
+//we also need to work inside the canvas and what ctx(2d or 3d)
+const toolbar = document.getElementById('toolbar');
+const ctx = canvas.getContext("2d");
 
-    //Resizing the canvas. like said at the css file, canvas works in its entirety in jscript, even the sizing
-    function resizeCanvas() {
-        canvas.height = window.innerHeight;
-        canvas.width = window.innerWidth;
+const canvasOffsetX = canvas.offsetLeft;
+const canvasOffsetY = canvas.offsetTop;
+
+canvas.width = window.innerWidth - canvasOffsetX;
+canvas.height = window.innerHeight - canvasOffsetY;
+
+let isPainting = false;
+let lineWidth = 5;
+let startX;
+let startY;
+
+toolbar.addEventListener('click', e => {
+    if (e.target.id === 'clear') {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+});
 
-    //variables
-
-    //so we know when we are drawing, i.e. when we are pressing down or not
-    let painting = false;
-
-    function startPos(e){
-        painting = true;
-        draw(e);
-    }
-    function finishedPos(){
-        painting = false;
-        ctx.beginPath();
-    }
-
-    function draw(e) {
-        //return nothing if not drawing
-        if(!painting) return;
-        ctx.lineWidth = 5;
-        //makes the line/brush round
-        ctx.lineCap = "round";
-
-        //start drawing. first making the line go to where the mouse is
-        ctx.lineTo(e.clientX, e.clientY);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(e.clientX, e.clientY);
+toolbar.addEventListener('change', e => {
+    if(e.target.id === 'stroke') {
+        ctx.strokeStyle = e.target.value;
     }
 
-    //EventListeners
-    canvas.addEventListener("mousedown", startPos);
-    canvas.addEventListener("mouseup", finishedPos);
-    canvas.addEventListener("mousemove", draw);
+    if(e.target.id === 'lineWidth') {
+        lineWidth = e.target.value;
+    }
 
 });
+
+const draw = (e) => {
+    if(!isPainting){
+        return;
+    }
+
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = 'round';
+
+    //it needs to be subtracted, otherwise the line doesnt start at the mousepointer
+    ctx.lineTo(e.clientX - canvasOffsetX, e.clientY);
+    ctx.stroke();
+}
+
+canvas.addEventListener('mousedown', (e) => {
+    isPainting = true;
+    startX = e.clientX;
+    startY = e.clientY;
+
+});
+
+canvas.addEventListener('mouseup', (e) => {
+    isPainting = false;
+    ctx.stroke();
+    ctx.beginPath();
+
+});
+
+canvas.addEventListener('mousemove', draw);
+
 

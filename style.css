@@ -1,0 +1,10 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#canvas {
+    /* canvas works pretty much entirely in jscript, even the sizing, so thats why the css wont have a height or width*/
+    border: 5px solid black;
+}

@@ -6,6 +6,9 @@ body {
     color: white;
 }
 
+#drawing-board {
+    border: 5px solid red;
+}
 
 .container {
     height: 100%;

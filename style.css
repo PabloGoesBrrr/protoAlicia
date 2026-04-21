@@ -7,9 +7,6 @@ body {
     font-family: sans-serif;
 }
 
-#drawing-board {
-    border: 5px solid red;
-}
 
 .container {
     height: 100%;

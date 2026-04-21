@@ -11,27 +11,33 @@ canvas.width = window.innerWidth - canvasOffsetX;
 canvas.height = window.innerHeight - canvasOffsetY;
 
 let isPainting = false;
+let isErasing = false;
 let lineWidth = 5;
 let startX;
 let startY;
 
+// botao clear
 toolbar.addEventListener('click', e => {
     if (e.target.id === 'clear') {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 });
 
+
 toolbar.addEventListener('change', e => {
+// slider de cor
     if(e.target.id === 'stroke') {
         ctx.strokeStyle = e.target.value;
     }
 
+// slider de tamanho brush
     if(e.target.id === 'lineWidth') {
         lineWidth = e.target.value;
     }
 
 });
 
+//desenhando com mouse
 const draw = (e) => {
     if(!isPainting){
         return;
@@ -43,12 +49,18 @@ const draw = (e) => {
     //it needs to be subtracted, otherwise the line doesnt start at the mousepointer
     ctx.lineTo(e.clientX - canvasOffsetX, e.clientY);
     ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(e.clientX - canvasOffsetX, e.clientY);
 }
+
 
 canvas.addEventListener('mousedown', (e) => {
     isPainting = true;
     startX = e.clientX;
     startY = e.clientY;
+
+    ctx.globalCompositeOperation = isErasing ? "destination-out" : "source-over";
 
 });
 
@@ -60,5 +72,17 @@ canvas.addEventListener('mouseup', (e) => {
 });
 
 canvas.addEventListener('mousemove', draw);
+
+//eraser
+const statusTool = document.getElementById("tool");
+
+const eraserBtn = document.getElementById("eraser");
+
+eraserBtn.addEventListener("click", () => {
+    isErasing = !isErasing;
+    eraserBtn.textContent = isErasing ? "Ativar Caneta" : "Ativar Borracha";
+    statusTool.textContent = isErasing ? "Borracha" : "Caneta";
+});
+
 
 

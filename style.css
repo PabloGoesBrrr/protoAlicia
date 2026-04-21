@@ -4,6 +4,7 @@ body {
     height: 100%;
     overflow: hidden;
     color: white;
+    font-family: sans-serif;
 }
 
 
@@ -38,4 +39,16 @@ body {
     border-radius: 4px;
     color:white;
     padding: 2px;
+}
+
+.botao {
+    background-color: #1565c0;
+    border-radius: 2px;
+    color: aliceblue;
+    text-decoration: none;
+    text-align: center;
+}
+
+#tool {
+    color: greenyellow;
 }

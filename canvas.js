@@ -51,8 +51,8 @@ const draw = (e) => {
     if(!isPainting){
         return;
     }
-
-    ctx.lineWidth = lineWidth;
+    const pressure = e.pressure || 1; // default to 1 if not supported
+    ctx.lineWidth = lineWidth * pressure;
     ctx.lineCap = 'round';
 
     //it needs to be subtracted, otherwise the line doesnt start at the mousepointer
@@ -64,7 +64,7 @@ const draw = (e) => {
 }
 
 
-canvas.addEventListener('mousedown', (e) => {
+canvas.addEventListener('pointerdown', (e) => {
     isPainting = true;
     startX = e.clientX;
     startY = e.clientY;
@@ -73,14 +73,14 @@ canvas.addEventListener('mousedown', (e) => {
 
 });
 
-canvas.addEventListener('mouseup', (e) => {
+canvas.addEventListener('pointerup', (e) => {
     isPainting = false;
     ctx.stroke();
     ctx.beginPath();
 
 });
 
-canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('pointermove', draw);
 
 //eraser
 const statusTool = document.getElementById("tool");

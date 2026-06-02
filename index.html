@@ -1,32 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="./style.css" />
     <title>Canvas</title>
 </head>
 <body>
     <section class="container">
-        <div id="toolbar">
-            <label> Cor </label>
-            <input id="stroke" name="stroke" type="color">
-            <label> Tamanho da Linha </label>
-            <input id="lineWidth" name="lineWidth" type="range" min="1" max="50" value="5">
-            <button id="clear">Limpar</button>
+        <aside id="toolbar">
 
+
+            <div class="control-group">
+                <label for="stroke">Cor</label>
+                <input id="stroke" name="stroke" type="color">
+            </div>
+
+            <div class="control-group">
+                <label for="lineWidth">Tamanho do Traço</label>
+                <input id="lineWidth" name="lineWidth" type="range" min="1" max="50" value="5">
+            </div>
+
+            <button id="clear">Limpar</button>
             <button id="eraser">Borracha</button>
             <button id="caneta">Caneta</button>
-            <label>Ferramenta: <span id="tool">Caneta</span> </label> 
-        </div>
+
+            <div class="tool-status">
+                Ferramenta:
+                <span id="tool">Caneta</span>
+            </div>
+        </aside>
 
         <div class="drawing-board">
             <canvas id="drawing-board"></canvas>
         </div>
-
     </section>
-
 
     <script src="./canvas.js"></script>
 </body>

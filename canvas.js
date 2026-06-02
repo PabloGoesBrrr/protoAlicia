@@ -4,11 +4,10 @@ const canvas = document.getElementById('drawing-board');
 const toolbar = document.getElementById('toolbar');
 const ctx = canvas.getContext("2d");
 
-const canvasOffsetX = canvas.offsetLeft;
-const canvasOffsetY = canvas.offsetTop; function resizeCanvas() {
-        canvas.height = window.innerHeight;
-        canvas.width = window.innerWidth;
-    }
+function resizeCanvas() {
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.parentElement.clientHeight;
+}
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
@@ -46,21 +45,25 @@ toolbar.addEventListener('change', e => {
 
 });
 
-//desenhando com mouse
 const draw = (e) => {
-    if(!isPainting){
-        return;
-    }
-    const pressure = e.pressure || 1; // default to 1 if not supported
-    ctx.lineWidth = lineWidth * pressure;
+    if (!isPainting) return;
+
+    const rect = canvas.getBoundingClientRect();
+
+    ctx.lineWidth = lineWidth;
     ctx.lineCap = 'round';
 
-    //it needs to be subtracted, otherwise the line doesnt start at the mousepointer
-    ctx.lineTo(e.clientX - canvasOffsetX, e.clientY);
+    ctx.lineTo(
+        e.clientX - rect.left,
+        e.clientY - rect.top
+    );
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.moveTo(e.clientX - canvasOffsetX, e.clientY);
+    ctx.moveTo(
+        e.clientX - rect.left,
+        e.clientY - rect.top
+    );
 }
 
 

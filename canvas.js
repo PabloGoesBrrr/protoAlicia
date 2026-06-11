@@ -4,6 +4,8 @@ const canvas = document.getElementById('drawing-board');
 const toolbar = document.getElementById('toolbar');
 const ctx = canvas.getContext("2d");
 
+const sizeValue = document.getElementById("sizeValue");
+
 function resizeCanvas() {
     canvas.width = canvas.parentElement.clientWidth;
     canvas.height = canvas.parentElement.clientHeight;
@@ -41,8 +43,8 @@ toolbar.addEventListener('change', e => {
 // slider de tamanho brush
     if(e.target.id === 'lineWidth') {
         lineWidth = e.target.value;
+        sizeValue.textContent = lineWidth;
     }
-
 });
 
 const draw = (e) => {

@@ -6,6 +6,8 @@ const ctx = canvas.getContext("2d");
 
 const sizeValue = document.getElementById("sizeValue");
 
+
+
 function resizeCanvas() {
     canvas.width = canvas.parentElement.clientWidth;
     canvas.height = canvas.parentElement.clientHeight;
@@ -28,11 +30,36 @@ let startY;
 
 // botao clear
 toolbar.addEventListener('click', e => {
+
+    // Clear canvas
     if (e.target.id === 'clear') {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
-});
 
+    // Save drawing
+    if (e.target.id === 'save') {
+
+        // Create temporary canvas
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d');
+
+        tempCanvas.width = canvas.width;
+        tempCanvas.height = canvas.height;
+
+        // White background
+        tempCtx.fillStyle = '#ffffff';
+        tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+        // Draw the user's artwork on top
+        tempCtx.drawImage(canvas, 0, 0);
+
+        // Download
+        const link = document.createElement('a');
+        link.download = 'desenho.png';
+        link.href = tempCanvas.toDataURL('image/png');
+        link.click();
+    }
+});
 
 toolbar.addEventListener('change', e => {
 // slider de cor
